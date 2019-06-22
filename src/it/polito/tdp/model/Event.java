@@ -4,6 +4,12 @@ import java.time.LocalDateTime;
 
 public class Event {
 	
+	public enum TIPO{
+		CRIMINE,
+		ARRIVO_AGENTE
+	}
+	
+	private TIPO TIPO;
 	private Long incident_id;
 	private Integer offense_code;
 	private Integer offense_code_extension;
@@ -18,12 +24,14 @@ public class Event {
 	private String neighborhood_id;
 	private Integer is_crime;
 	private Integer is_traffic;
+
 	
-	public Event(Long incident_id, Integer offense_code, Integer offense_code_extension, String offense_type_id,
+	public Event(TIPO tipo, Long incident_id, Integer offense_code, Integer offense_code_extension, String offense_type_id,
 			String offense_category_id, LocalDateTime reported_date, String incident_address, double geo_lon,
 			double geo_lat, Integer district_id, Integer precinct_id, String neighborhood_id, Integer is_crime,
 			Integer is_traffic) {
 		super();
+		this.TIPO = tipo;
 		this.incident_id = incident_id;
 		this.offense_code = offense_code;
 		this.offense_code_extension = offense_code_extension;
@@ -123,6 +131,14 @@ public class Event {
 	}
 	public void setIs_traffic(Integer is_traffic) {
 		this.is_traffic = is_traffic;
+	}
+	
+	public TIPO getTIPO() {
+		return TIPO;
+	}
+
+	public void setTIPO(TIPO tIPO) {
+		TIPO = tIPO;
 	}
 
 	@Override

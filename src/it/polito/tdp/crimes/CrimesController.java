@@ -68,6 +68,7 @@ public class CrimesController {
     void doSimula(ActionEvent event) {
     	txtResult.clear();
     	LocalDate data;
+    	int numAgenti = Integer.parseInt(txtN.getText());
     	
     	try {
 			data = LocalDate.of(boxAnno.getValue(), boxMese.getValue(), boxGiorno.getValue());
@@ -77,6 +78,7 @@ public class CrimesController {
 			txtResult.setText("Inserisci una data valida");
 		}
     	
+    	model.simula(data, numAgenti);
     	
     }
 

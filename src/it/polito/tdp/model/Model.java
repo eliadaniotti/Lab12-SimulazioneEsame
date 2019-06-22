@@ -20,6 +20,7 @@ public class Model {
 	EventsDao dao = new EventsDao();
 	List<Integer> anni;
 	List<Distretto> distretti;
+	Distretto centrale = null;
 	SimpleWeightedGraph<Distretto, DefaultWeightedEdge> grafo;
 	
 	public Model() {
@@ -74,5 +75,18 @@ public class Model {
 		return adiacenti;
 	}
 
+	
+	public Distretto getDistrettoTranquillo() {
+		for(Distretto d : distretti)
+			if(d.getCrimini() < centrale.getCrimini() || centrale==null)
+				centrale = d;
+		return centrale;
+	}
+	
+	public int simula(LocalDate data, int n) {
+		Simulatore sim = new Simulatore();
+		sim.init(data, n);
+		sim.run();
+	}
 	
 }

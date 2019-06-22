@@ -7,10 +7,13 @@ import com.javadocmd.simplelatlng.LatLng;
 public class Distretto {
 	int id;
 	LatLng centro;
-	public Distretto(int id, LatLng centro) {
+	int crimini;
+	
+	public Distretto(int id, LatLng centro, int crimini) {
 		super();
 		this.id = id;
 		this.centro = centro;
+		this.crimini=crimini;
 	}
 	public int getId() {
 		return id;
@@ -24,6 +27,14 @@ public class Distretto {
 	public void setCentro(LatLng centro) {
 		this.centro = centro;
 	}
+	
+	public int getCrimini() {
+		return crimini;
+	}
+	public void setCrimini(int crimini) {
+		this.crimini = crimini;
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;

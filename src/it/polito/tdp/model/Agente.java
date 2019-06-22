@@ -6,6 +6,7 @@ public class Agente {
 	int id;
 	LatLng posizione;
 	boolean libero;
+	
 	public Agente(int id, LatLng posizione) {
 		super();
 		this.id = id;

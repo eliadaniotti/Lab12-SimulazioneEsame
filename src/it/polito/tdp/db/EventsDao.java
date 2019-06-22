@@ -12,6 +12,7 @@ import com.javadocmd.simplelatlng.LatLng;
 
 import it.polito.tdp.model.Distretto;
 import it.polito.tdp.model.Event;
+import it.polito.tdp.model.Event.TIPO;
 
 
 public class EventsDao {
@@ -29,7 +30,7 @@ public class EventsDao {
 			
 			while(res.next()) {
 				try {
-					list.add(new Event(res.getLong("incident_id"),
+					list.add(new Event(TIPO.CRIMINE,res.getLong("incident_id"),
 							res.getInt("offense_code"),
 							res.getInt("offense_code_extension"), 
 							res.getString("offense_type_id"), 
@@ -60,7 +61,7 @@ public class EventsDao {
 	}
 	
 	public List<Event> listAllDatesEvents(LocalDate data){
-		String sql = "SELECT * FROM events" ;
+		String sql = "SELECT * FROM events where is_crime=1" ;
 		try {
 			Connection conn = DBConnect.getConnection() ;
 
@@ -72,7 +73,7 @@ public class EventsDao {
 			while(res.next()) {
 				try {
 					if(res.getTimestamp("reported_date").toLocalDateTime().equals(data)) {
-					list.add(new Event(res.getLong("incident_id"),
+					list.add(new Event(TIPO.CRIMINE,res.getLong("incident_id"),
 							res.getInt("offense_code"),
 							res.getInt("offense_code_extension"), 
 							res.getString("offense_type_id"), 
@@ -103,7 +104,7 @@ public class EventsDao {
 		}
 	}
 	public List<Distretto> listAllDistretti(int anno){
-		String sql = "SELECT district_id , avg(geo_lon) as x, avg(geo_lat) as y FROM EVENTS WHERE year(reported_date) =? GROUP BY district_id" ;
+		String sql = "SELECT district_id , avg(geo_lon) as x, avg(geo_lat) as y, COUNT(*) AS cr FROM EVENTS WHERE year(reported_date) =? GROUP BY district_id" ;
 		try {
 			Connection conn = DBConnect.getConnection() ;
 			PreparedStatement st = conn.prepareStatement(sql) ;
@@ -116,7 +117,7 @@ public class EventsDao {
 			while(res.next()) {
 				try {
 					LatLng centro = new LatLng(res.getDouble("y"), res.getDouble("x"));
-					Distretto d = new Distretto(res.getInt("district_id"), centro);
+					Distretto d = new Distretto(res.getInt("district_id"), centro, res.getInt("cr"));
 					
 					list.add(d);
 				} catch (Throwable t) {
@@ -134,6 +135,7 @@ public class EventsDao {
 			return null ;
 		}
 	}
+	
 	
 	public List<Integer> listAllAnni(){
 		String sql = "SELECT distinct year(reported_date) FROM events" ;
